@@ -32,7 +32,6 @@ def query_transaction_status_endpoint():
 def make_payment_endpoint():
     token = request.json.get('token')
     print(token)
-    return jsonify({'status_code': 200}), 200
 
     if not token:
         return jsonify({'error': 'Missing token'}), 400
