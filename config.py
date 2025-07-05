@@ -12,4 +12,8 @@ class Config:
     PORT = 18352
     PATH = '/ipg/v1x/c2bPayment/singleStage/'
     SECRET_KEY = 'oi'
-    service_provider_code ='171717'
+    service_provider_code ='171717'    
+    PAYPAL_CLIENT_ID = os.getenv("PAYPAL_CLIENT_ID")
+    PAYPAL_CLIENT_SECRET = os.getenv("PAYPAL_CLIENT_SECRET")
+    PAYPAL_API_BASE = "https://api-m.sandbox.paypal.com"
+
