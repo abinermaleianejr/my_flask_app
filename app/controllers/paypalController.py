@@ -7,15 +7,14 @@ from jwt import InvalidTokenError
 def create_order_endpoint():
     token = request.json.get('token')
     print(token)
+    
 
     if not token:
         return jsonify({'error': 'Missing token'}), 400
 
     try:
-        payload = decode_token(token)
-        print(payload)
-        amount = payload.get("amount")
-        currency = payload.get("currency", "USD")
+        amount = token.get("amount")
+        currency = token.get("currency", "USD")
 
         if not amount:
             return jsonify({'error': 'Missing amount'}), 400
@@ -35,8 +34,7 @@ def capture_order_endpoint():
         return jsonify({'error': 'Missing token'}), 400
 
     try:
-        payload = decode_token(token)
-        order_id = payload.get("order_id")
+        order_id = token.get("order_id")
 
         if not order_id:
             return jsonify({'error': 'Missing order_id'}), 400
@@ -48,6 +46,7 @@ def capture_order_endpoint():
         return jsonify({'error': 'Invalid token'}), 400
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
 
 
 
