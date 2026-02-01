@@ -3,6 +3,7 @@ from app.models.paypalTransactions import create_order, capture_order
 from app.utils.jwt_utils import decode_token
 from jwt import InvalidTokenError
 
+
 def create_order_endpoint():
     token = request.json.get('token')
     print(token)
@@ -11,10 +12,10 @@ def create_order_endpoint():
         return jsonify({'error': 'Missing token'}), 400
 
     try:
-        payload = decode_token(token)
-        print(payload)
-        amount = payload.get("amount")
-        currency = payload.get("currency", "USD")
+        # payload = decode_token(token)
+        # print(payload)
+        amount = token.get("amount")
+        currency = token.get("currency", "USD")
 
         if not amount:
             return jsonify({'error': 'Missing amount'}), 400
@@ -47,6 +48,7 @@ def capture_order_endpoint():
         return jsonify({'error': 'Invalid token'}), 400
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
 
 
 
