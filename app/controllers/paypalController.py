@@ -1,20 +1,25 @@
 from flask import request, jsonify
 from app.models.paypalTransactions import create_order, capture_order
-from app.utils.jwt_utils import decode_token
-from jwt import InvalidTokenError
 
-
+# ==========================
+# Endpoint para criar pedido
+# ==========================
 def create_order_endpoint():
-    token = request.json.get('token')
-    print(token)
-    
+    token_data = request.json.get('token')
+    print("Dados recebidos:", token_data)
 
-    if not token:
+    if not token_data:
         return jsonify({'error': 'Missing token'}), 400
 
     try:
-        amount = token.get("amount")
-        currency = token.get("currency", "USD")
+        # Se futuramente usar JWT, aqui você faria decode:
+        # payload = decode_token(token_data)
+        # amount = payload.get("amount")
+        # currency = payload.get("currency", "USD")
+
+        # Pegando direto do JSON enviado pelo Node
+        amount = token_data.get("amount")
+        currency = token_data.get("currency", "USD")
 
         if not amount:
             return jsonify({'error': 'Missing amount'}), 400
@@ -22,32 +27,29 @@ def create_order_endpoint():
         response, status = create_order(amount, currency)
         return jsonify(response), status
 
-    except InvalidTokenError:
-        return jsonify({'error': 'Invalid token'}), 400
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-def capture_order_endpoint():
-    token = request.json.get('token')
 
-    if not token:
+# ==========================
+# Endpoint para capturar pedido
+# ==========================
+def capture_order_endpoint():
+    token_data = request.json.get('token')
+    print("Dados recebidos:", token_data)
+
+    if not token_data:
         return jsonify({'error': 'Missing token'}), 400
 
     try:
-        order_id = token.get("order_id")
+        # Pegando orderId direto do JSON enviado pelo Node
+        order_id = token_data.get("orderId")
 
         if not order_id:
-            return jsonify({'error': 'Missing order_id'}), 400
+            return jsonify({'error': 'Missing orderId'}), 400
 
         response, status = capture_order(order_id)
         return jsonify(response), status
 
-    except InvalidTokenError:
-        return jsonify({'error': 'Invalid token'}), 400
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-
-
-
-
-
