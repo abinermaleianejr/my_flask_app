@@ -13,6 +13,7 @@ def create_token(payload, secret_key=SECRET_KEY, exp_horas=1):
 
 def decode_token(token, secret_key=SECRET_KEY):
     try:
+        print(token)
         decoded_payload = jwt.decode(token, secret_key, algorithms=['HS256'])
         print(decoded_payload)
 
