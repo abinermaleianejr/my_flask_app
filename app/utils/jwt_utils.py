@@ -2,7 +2,9 @@ import jwt
 import datetime
 
 # Chave secreta para codificação e decodificação do token
-SECRET_KEY = 'oi'
+SECRET_KEY = os.environ.get("JWT_SECRET")
+if not SECRET_KEY:
+    raise RuntimeError("JWT_SECRET não definido")
 
 
 def create_token(payload, secret_key=SECRET_KEY, exp_horas=1):
@@ -11,9 +13,10 @@ def create_token(payload, secret_key=SECRET_KEY, exp_horas=1):
     return token
 
 
-def decode_token(token, secret_key):
+def decode_token(token, secret_key=SECRET_KEY):
     try:
         print(token)
+        token = request.headers["Authorization"].replace("Bearer ", "")
         decoded_payload = jwt.decode(token, secret_key, algorithms=['HS256'])
         print(decoded_payload)
 
