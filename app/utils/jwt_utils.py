@@ -16,11 +16,14 @@ def create_token(payload, secret_key=SECRET_KEY, exp_horas=1):
 
 def decode_token(token, secret_key=SECRET_KEY):
     try:
-       if token.startswith("Bearer "):
+        # Remove "Bearer " se existir
+        if token.startswith("Bearer "):
             token = token[7:].strip()
+
         decoded_payload = jwt.decode(token, secret_key, algorithms=['HS256'])
         print(decoded_payload)
         return decoded_payload
+
     except jwt.ExpiredSignatureError:
         raise jwt.ExpiredSignatureError('Token expirado. Por favor, faça login novamente.')
     except jwt.InvalidTokenError:
