@@ -37,7 +37,7 @@ def make_payment_endpoint():
         return jsonify({'error': 'Missing token'}), 400
 
     try:
-        payload = decode_token(token, 'oi')
+        payload = decode_token(token)
         transaction_reference = payload.get('transaction_reference')
         customer_msisdn = payload.get('customer_msisdn')
         amount = payload.get('amount')
