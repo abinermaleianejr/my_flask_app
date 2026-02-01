@@ -12,10 +12,10 @@ def create_order_endpoint():
         return jsonify({'error': 'Missing token'}), 400
 
     try:
-        # payload = decode_token(token)
-        # print(payload)
-        amount = token.get("amount")
-        currency = token.get("currency", "USD")
+        payload = decode_token(token)
+        print(payload)
+        amount = payload.get("amount")
+        currency = payload.get("currency", "USD")
 
         if not amount:
             return jsonify({'error': 'Missing amount'}), 400
@@ -35,7 +35,7 @@ def capture_order_endpoint():
         return jsonify({'error': 'Missing token'}), 400
 
     try:
-        payload = decode_token(token, 'oi')
+        payload = decode_token(token)
         order_id = payload.get("order_id")
 
         if not order_id:
