@@ -1,5 +1,5 @@
 import requests
-from app.config import Config
+from config import Config
 
 def get_access_token():
     response = requests.post(
@@ -35,4 +35,5 @@ def capture_order(order_id):
     }
     response = requests.post(f"{Config.PAYPAL_API_BASE}/v2/checkout/orders/{order_id}/capture", headers=headers)
     return response.json(), response.status_code
+
 
