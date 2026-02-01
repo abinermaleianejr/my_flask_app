@@ -1,5 +1,6 @@
 import jwt
 import datetime
+import os
 
 # Chave secreta para codificação e decodificação do token
 SECRET_KEY = os.environ.get("JWT_SECRET")
