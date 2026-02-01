@@ -18,7 +18,7 @@ def decode_token(token, secret_key=SECRET_KEY):
     try:
         print(token)
         # token = request.headers["Authorization"].replace("Bearer ", "")
-        decoded_payload = jwt.decode(token, secret_key, algorithms=['HS256'])
+        decoded_payload = jwt.decode(token, secret_key=SECRET_KEY, algorithms=['HS256'])
         print(decoded_payload)
 
         return decoded_payload
